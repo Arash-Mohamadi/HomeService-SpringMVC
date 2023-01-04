@@ -45,10 +45,9 @@ public class Order extends BaseAbility {
     @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE)
     private List<Suggestion> suggestions;
 
-    @ToString.Exclude
-    @OneToOne // unidirectional
-    @Column(name = "selected_suggestion")
-    private Suggestion selectedSuggestion;
+
+    @Column(name = "selected_suggestion_id")
+    private Long selectedSuggestionID;
 
     @ToString.Exclude
     @ManyToOne // bidirectional
