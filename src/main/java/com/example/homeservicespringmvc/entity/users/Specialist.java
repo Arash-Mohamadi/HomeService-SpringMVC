@@ -3,10 +3,8 @@ package com.example.homeservicespringmvc.entity.users;
 import com.example.homeservicespringmvc.entity.capability.*;
 import com.example.homeservicespringmvc.entity.enums.SpecialistStatus;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -24,6 +22,7 @@ public class Specialist extends Person {
 
     @Enumerated(EnumType.STRING)
     private SpecialistStatus status;
+
 
     private byte[] photo;
 
