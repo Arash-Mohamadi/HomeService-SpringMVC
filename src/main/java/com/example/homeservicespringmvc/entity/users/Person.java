@@ -44,7 +44,7 @@ public class Person extends BaseEntity<Long> {
     @Enumerated(EnumType.STRING)
     private UserType userType;
 
-    @Builder
+
     public Person(String firstname, String lastname, String email, String username, String password) {
         this.firstname = firstname;
         this.lastname = lastname;
