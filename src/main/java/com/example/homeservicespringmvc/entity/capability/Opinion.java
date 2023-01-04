@@ -10,6 +10,8 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @ToString
@@ -33,9 +35,11 @@ public class Opinion extends BaseAbility {
     private Specialist specialist;
 
     @ToString.Exclude
-    @OneToOne(mappedBy = "opinion")
+    @OneToOne(mappedBy = "opinion")  // bidirectional
     private Order order;
 
+    @CreationTimestamp
+    private LocalDateTime createDate;
 
     @Builder
     public Opinion(Integer score, String comment) {
