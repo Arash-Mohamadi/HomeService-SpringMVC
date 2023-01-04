@@ -24,9 +24,9 @@ public class Order extends BaseAbility {
     @CreationTimestamp
     private LocalDateTime creationDate;
     @Positive(message = "price should be positive")
-    @NotNull
+    @NotNull(message = "price should filled")
     private double price;
-    @NotNull
+    @NotNull(message = "startWork should specified")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime startWork;
     @NotBlank(message = "please write a correct description ")

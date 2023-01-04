@@ -5,10 +5,7 @@ import com.example.homeservicespringmvc.entity.enums.TransactionType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
 
@@ -16,11 +13,12 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @NoArgsConstructor
+@ToString
 public class Transaction extends BaseAbility {
     @CreationTimestamp
     private LocalDateTime creationDate;
     @Positive(message = "amount should positive")
-    @NotNull
+    @NotNull(message = "amount should specified")
     private double amount;
     @Enumerated(EnumType.STRING)
     private TransactionType type;

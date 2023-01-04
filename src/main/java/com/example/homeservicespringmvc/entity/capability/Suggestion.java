@@ -22,17 +22,17 @@ import java.time.LocalDateTime;
 public class Suggestion extends BaseAbility {
     @CreationTimestamp
     private LocalDateTime creationDate;
-    @NotNull
+    @NotNull(message = "startWork should specified")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime startWork;
-    @NotNull
+    @NotNull(message = "endWork should specified")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime endWork;
 
     @Transient
     private Duration duration;
     @Positive(message = "price should positive")
-    @NotNull
+    @NotNull(message = "price should specified")
     private double price;
 
     @ToString.Exclude

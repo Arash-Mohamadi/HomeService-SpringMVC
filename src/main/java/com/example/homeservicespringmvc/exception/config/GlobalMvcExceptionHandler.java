@@ -16,7 +16,7 @@ public class GlobalMvcExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 
-    @ExceptionHandler(value = CustomizedFormatOrSizeFileException.class)
+    @ExceptionHandler(value = CustomizedInvalidFormatOrSizeFileException.class)
     public ResponseEntity<Object> handleCustomizedFormatOrSizeFileException(Exception ex, WebRequest request) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }

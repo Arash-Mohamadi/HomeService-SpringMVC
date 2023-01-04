@@ -22,7 +22,7 @@ public class Opinion extends BaseAbility {
     @Column(nullable = false)
     @Positive(message = "score should positive")
     @Max(value = 5, message = "only 1 to 5 is allowed")
-    @NotNull
+    @NotNull(message = "score should filled")
     private Integer score;
     private String comment;
 

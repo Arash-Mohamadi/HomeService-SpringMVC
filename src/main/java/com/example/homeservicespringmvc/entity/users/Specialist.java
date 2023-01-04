@@ -3,10 +3,10 @@ package com.example.homeservicespringmvc.entity.users;
 import com.example.homeservicespringmvc.entity.capability.*;
 import com.example.homeservicespringmvc.entity.enums.SpecialistStatus;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -19,6 +19,7 @@ import java.util.Set;
 public class Specialist extends Person {
 
     @Column(nullable = false)
+    @ColumnDefault("0")
     private Integer Avg;
 
     @Enumerated(EnumType.STRING)

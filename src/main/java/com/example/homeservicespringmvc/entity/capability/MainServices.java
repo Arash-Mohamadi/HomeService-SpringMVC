@@ -4,7 +4,6 @@ import com.example.homeservicespringmvc.entity.users.Specialist;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
-
 import java.util.List;
 import java.util.Set;
 
@@ -15,6 +14,7 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 public class MainServices extends BaseAbility {
+
     @Column(unique = true)
     @NotBlank(message = "name of service should not contains null value or space . ")
     private String name;

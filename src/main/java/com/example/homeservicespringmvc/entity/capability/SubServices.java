@@ -16,7 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 @ToString
 public class SubServices extends BaseAbility {
-    @NotNull
+    @NotNull(message = "base price should specified")
     @Positive(message = "base price should positive")
     private double basePrice;
     @NotBlank(message = "please write a clearly description")
