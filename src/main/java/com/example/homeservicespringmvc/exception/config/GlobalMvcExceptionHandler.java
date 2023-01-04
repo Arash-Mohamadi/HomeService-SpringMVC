@@ -36,10 +36,6 @@ public class GlobalMvcExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 
-    @ExceptionHandler(value = CustomizesDuplicateSubService.class)
-    public ResponseEntity<Object> handleCustomizesDuplicateSubService(Exception ex, WebRequest request) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
-    }
 
     @ExceptionHandler(value = RuntimeException.class)
     public ResponseEntity<Object> handleRuntimeException(Exception ex, WebRequest request) {
