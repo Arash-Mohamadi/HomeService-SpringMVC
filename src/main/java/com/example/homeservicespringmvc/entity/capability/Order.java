@@ -29,9 +29,13 @@ public class Order extends BaseAbility {
     @NotNull(message = "startWork should specified")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime startWork;
+
     @NotBlank(message = "please write a correct description ")
+    @Column(columnDefinition = "text")
     private String description;
+
     @NotBlank(message = "please write a correct address ")
+    @Column(columnDefinition = "text")
     private String address;
 
     @Enumerated(EnumType.STRING)
@@ -43,7 +47,8 @@ public class Order extends BaseAbility {
 
     @ToString.Exclude
     @OneToOne // unidirectional
-    private Suggestion suggestion;
+    @Column(name = "selected_suggestion")
+    private Suggestion selectedSuggestion;
 
     @ToString.Exclude
     @ManyToOne // bidirectional
@@ -57,7 +62,7 @@ public class Order extends BaseAbility {
     @OneToOne // bidirectional
     private Opinion opinion;
 
-    @ManyToOne(cascade = CascadeType.MERGE) //bidirectional
+    @ManyToOne(cascade = CascadeType.MERGE) // bidirectional
     @ToString.Exclude
     private Specialist specialist;
 
