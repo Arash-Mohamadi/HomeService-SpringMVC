@@ -3,6 +3,7 @@ package com.example.homeservicespringmvc.entity.capability;
 import com.example.homeservicespringmvc.entity.enums.OrderStatus;
 import com.example.homeservicespringmvc.entity.users.Customer;
 import com.example.homeservicespringmvc.entity.users.Specialist;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -26,6 +27,7 @@ public class Order extends BaseAbility {
     @NotNull
     private double price;
     @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime startWork;
     @NotBlank(message = "please write a correct description ")
     private String description;
