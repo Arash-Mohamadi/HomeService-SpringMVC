@@ -10,9 +10,8 @@ import org.springframework.web.context.request.WebRequest;
 @RestControllerAdvice
 public class GlobalMvcExceptionHandler {
 
-
     @ExceptionHandler(value = CustomizedDuplicatedItemException.class)
-    public ResponseEntity<Object> handleCustomizedDuplicateService(Exception ex, WebRequest request) {
+    public ResponseEntity<Object> handleCustomizedDuplicatedItemException(Exception ex, WebRequest request) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 
