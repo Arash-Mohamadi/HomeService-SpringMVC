@@ -2,13 +2,14 @@ package com.example.homeservicespringmvc.entity.users;
 
 import com.example.homeservicespringmvc.entity.capability.*;
 import com.example.homeservicespringmvc.entity.enums.SpecialistStatus;
+import com.example.homeservicespringmvc.entity.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.util.*;
 
 
 @Entity
@@ -18,7 +19,7 @@ public class Specialist extends Person {
 
     @Column(nullable = false)
     @ColumnDefault("0")
-    private Integer Avg;
+    private Integer avg;
 
     @Enumerated(EnumType.STRING)
     private SpecialistStatus status;
@@ -38,9 +39,6 @@ public class Specialist extends Person {
     @OneToMany(mappedBy = "specialist") // bidirectional
     private List<Suggestion> suggestions;
 
-    @ToString.Exclude
-    @ManyToMany // bidirectional
-    private Set<MainServices> servicesSet;
 
     @ManyToMany // bidirectional
     @ToString.Exclude
@@ -66,20 +64,45 @@ public class Specialist extends Person {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Specialist that = (Specialist) o;
-        return Objects.equals(Avg, that.Avg) && status == that.status &&
+        return Objects.equals(avg, that.avg) && status == that.status &&
                 Arrays.equals(photo, that.photo) && Objects.equals(credit, that.credit)
                 && Objects.equals(opinions, that.opinions)
                 && Objects.equals(suggestions, that.suggestions)
-                && Objects.equals(servicesSet, that.servicesSet)
                 && Objects.equals(subServicesSet, that.subServicesSet)
                 && Objects.equals(orders, that.orders);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(super.hashCode(), Avg, status, credit, opinions,
-                suggestions, servicesSet, subServicesSet, orders);
+        int result = Objects.hash(super.hashCode(), avg, status, credit, opinions,
+                suggestions,  subServicesSet, orders);
         result = 31 * result + Arrays.hashCode(photo);
         return result;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(getUserType().name());
+        return Collections.singletonList(authority) ;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

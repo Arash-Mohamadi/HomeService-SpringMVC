@@ -46,8 +46,9 @@ public class Order extends BaseAbility {
     private List<Suggestion> suggestions;
 
 
-    @Column(name = "selected_suggestion_id")
-    private Long selectedSuggestionID;
+    @OneToOne
+    @JoinColumn(name = "selected_suggestion")
+    private Suggestion selectedSuggestion;
 
     @ToString.Exclude
     @ManyToOne // bidirectional

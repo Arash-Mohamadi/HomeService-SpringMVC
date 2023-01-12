@@ -1,11 +1,11 @@
 package com.example.homeservicespringmvc.entity.capability;
 
-import com.example.homeservicespringmvc.entity.users.Specialist;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import java.util.List;
-import java.util.Set;
+
 
 
 @Entity
@@ -23,14 +23,9 @@ public class MainServices extends BaseAbility {
     @OneToMany(mappedBy = "services", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<SubServices> subList;
 
-    @ToString.Exclude
-    @ManyToMany(mappedBy = "servicesSet")
-    private Set<Specialist> specialistSet;
 
-    public void addSpecialist(Specialist specialist) {
-        this.getSpecialistSet().add(specialist);
-        specialist.getServicesSet().add(this);
-    }
+
+
 
     public void addSubServices(SubServices subServices) {
         this.getSubList().add(subServices);

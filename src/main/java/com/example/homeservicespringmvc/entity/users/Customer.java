@@ -8,6 +8,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,7 +30,7 @@ public class Customer extends Person{
     private List<Opinion> opinions;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "customer",cascade = CascadeType.REMOVE) // bidirectional
+    @OneToMany(mappedBy = "customer",cascade = {CascadeType.REMOVE,CascadeType.PERSIST}) // bidirectional
     private List<Order> orders;
 
     @Builder
@@ -45,5 +50,31 @@ public class Customer extends Person{
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), credit, opinions, orders);
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(getUserType().name());
+        return Collections.singletonList(authority) ;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return !getLocked();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return getEnabled();
     }
 }

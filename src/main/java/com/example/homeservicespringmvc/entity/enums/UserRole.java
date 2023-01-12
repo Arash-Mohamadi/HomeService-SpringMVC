@@ -1,8 +1,8 @@
 package com.example.homeservicespringmvc.entity.enums;
 
-public enum UserType {
+public enum UserRole {
     MANAGER,
     CUSTOMER,
-    SPECIALIST,
-    DISABLE
+    SPECIALIST
+
 }
