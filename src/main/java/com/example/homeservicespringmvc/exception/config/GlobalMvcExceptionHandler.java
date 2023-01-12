@@ -41,5 +41,10 @@ public class GlobalMvcExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 
+    @ExceptionHandler(value = CustomizedEmailException.class)
+    public ResponseEntity<Object> handleCustomizedEmailConfirmedException(Exception ex, WebRequest request) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
 
 }
