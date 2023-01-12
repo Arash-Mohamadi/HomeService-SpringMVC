@@ -1,0 +1,72 @@
+package com.example.homeservicespringmvc.specification;
+
+import com.example.homeservicespringmvc.entity.capability.Order;
+import com.example.homeservicespringmvc.entity.enums.UserRole;
+import com.example.homeservicespringmvc.entity.users.Customer;
+import com.example.homeservicespringmvc.entity.users.Specialist;
+import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.Subquery;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
+import java.util.Map;
+
+@Component
+public class CustomerSpecification {
+
+    public static Specification<Customer> hasFirstname(String firstname) {
+        return ((root, query, criteriaBuilder) -> {
+            return criteriaBuilder.equal(root.get("firstname"), firstname);
+        });
+    }
+
+    public static Specification<Customer> hasLastname(String lastname) {
+        return ((root, query, criteriaBuilder) -> {
+            return criteriaBuilder.equal(root.get("lastname"), lastname);
+        });
+    }
+
+    public static Specification<Customer> hasEmail(String email) {
+        return ((root, query, criteriaBuilder) -> {
+            return criteriaBuilder.equal(root.get("email"), email);
+        });
+    }
+
+    public static Specification<Customer> hasRole(String userType) {
+        UserRole type = UserRole.valueOf(userType);
+        return ((root, query, criteriaBuilder) -> {
+            return criteriaBuilder.equal(root.get("userType"), type);
+        });
+    }
+
+    public static Specification<Customer> searchCustomer(Map<String, String> filters) {
+
+        Specification<Customer> specification = Specification.where(null);
+        for (Map.Entry<String, String> entry : filters.entrySet()) {
+            specification = specification.and((expert, cq, cb) ->
+                    cb.equal(expert.get(entry.getKey()), entry.getValue()));
+        }
+        return specification;
+    }
+
+    public static Specification<Customer> dateOfSignupReport(LocalDateTime dateOfSignup){
+        return (root, criteriaQuery, criteriaBuilder) -> {
+            return criteriaBuilder.and(criteriaBuilder.greaterThanOrEqualTo
+                    (root.get("dateOfSignup"), dateOfSignup));
+        };
+    }
+
+
+    public static Specification<Customer> greaterThanOrEqualOrder(Long count){
+
+        return (root, criteriaQuery, criteriaBuilder) -> {
+            criteriaQuery.distinct(true);
+            Subquery<Long> subQuery = criteriaQuery.subquery(Long.class);
+            Root<Order> from = subQuery.from(Order.class);
+            subQuery.where(criteriaBuilder.equal(from.get("customer").get("id"),root.get("id")));
+            return criteriaBuilder.greaterThanOrEqualTo(subQuery,count);
+        };
+    }
+
+}
