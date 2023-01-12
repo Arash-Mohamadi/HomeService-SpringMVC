@@ -15,7 +15,6 @@ import com.example.homeservicespringmvc.security.email.EmailSenderImpl;
 import com.example.homeservicespringmvc.service.*;
 
 import static com.example.homeservicespringmvc.specification.SpecialistSpecification.*;
-import static com.example.homeservicespringmvc.util.TokenUtil.setConfirmationAtToken;
 
 import com.example.homeservicespringmvc.util.TokenUtil;
 import com.example.homeservicespringmvc.validation.HibernateValidatorProvider;
@@ -51,7 +50,7 @@ public class SpecialistServiceImpl implements SpecialistService {
         HibernateValidatorProvider.checkEntity(specialist);
         if (!isExistSpecialist(specialist)) {
             fillSpecialist(specialist); // fill specialist and save
-            String tokenValue = TokenUtil.generate(null, specialist, null);
+            String tokenValue = TokenUtil.getTokenUtil(tokenService).generate(null, specialist, null);
             String link = "http://localhost:8080/api/v1/registration/confirm?token=" + tokenValue;
             emailSender.send(specialist.getEmail(),
                     EmailSenderImpl.buildEmail(specialist.getFirstname(),link ));
@@ -231,7 +230,7 @@ public class SpecialistServiceImpl implements SpecialistService {
     @Transactional
     public String confirmTokenBySpecialist(String tokenValue) {
         Token tokenFound = tokenService.getToken(tokenValue);
-        setConfirmationAtToken(tokenFound);
+        TokenUtil.getTokenUtil(tokenService).setConfirmationAtToken(tokenFound);
         enableSpecialist(tokenFound.getCustomer().getEmail());
         return " activated ,thank you , please waiting for confirm manager";
     }

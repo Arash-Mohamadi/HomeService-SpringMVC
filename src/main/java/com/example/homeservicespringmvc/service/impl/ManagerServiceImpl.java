@@ -16,18 +16,13 @@ import com.example.homeservicespringmvc.service.*;
 import com.example.homeservicespringmvc.util.TokenUtil;
 import com.example.homeservicespringmvc.validation.HibernateValidatorProvider;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.homeservicespringmvc.util.TokenUtil.setConfirmationAtToken;
 
 @Service
 @RequiredArgsConstructor
@@ -205,7 +200,7 @@ public class ManagerServiceImpl implements ManagerService {
             manager.setPassword(passwordEncoder.encode(manager.getPassword()));
             manager.setUserType(UserRole.MANAGER);
             managerRepository.save(manager);
-            String tokenValue = TokenUtil.generate(null, null, manager);
+            String tokenValue = TokenUtil.getTokenUtil(tokenService).generate(null, null, manager);
             String link = "http://localhost:8080/api/v1/registration/confirm?token=" + tokenValue;
             emailSender.send(manager.getEmail(),
                     EmailSenderImpl.buildEmail(manager.getFirstname(),link ));
@@ -216,7 +211,7 @@ public class ManagerServiceImpl implements ManagerService {
     @Transactional
     public String confirmTokenByManager(String tokenValue) {
         Token tokenFound = tokenService.getToken(tokenValue);
-        setConfirmationAtToken(tokenFound);
+        TokenUtil.getTokenUtil(tokenService).setConfirmationAtToken(tokenFound);
         enableManager(tokenFound.getCustomer().getEmail());
         return "email confirmed,thank you";
     }

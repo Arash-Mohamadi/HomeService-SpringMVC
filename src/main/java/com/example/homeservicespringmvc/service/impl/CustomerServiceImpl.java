@@ -53,7 +53,7 @@ public class CustomerServiceImpl implements CustomerService {
             customer.setUserType(UserRole.CUSTOMER);
             customer.setCredit(credit);
             customerRepository.save(customer);
-            String tokenValue = TokenUtil.generate(customer, null, null);
+            String tokenValue = TokenUtil.getTokenUtil(tokenService).generate(customer, null, null);
             String link = "http://localhost:8080/api/v1/registration/confirm?token=" + tokenValue;
             emailSender.send(customer.getEmail(),
                     EmailSenderImpl.buildEmail(customer.getFirstname(),link ));
@@ -64,8 +64,8 @@ public class CustomerServiceImpl implements CustomerService {
     @Transactional
     public String confirmTokenByCustomer(String tokenValue) {
         Token tokenFound = tokenService.getToken(tokenValue);
-        TokenUtil.setConfirmationAtToken(tokenFound);
-        enableCustomer(tokenFound.getCustomer().getEmail());
+        TokenUtil.getTokenUtil(tokenService).setConfirmationAtToken(tokenFound);
+        enableCustomer(tokenFound.getCustomer().getId());
         return "email confirmed,thank you";
     }
 
@@ -210,9 +210,9 @@ public class CustomerServiceImpl implements CustomerService {
                 () -> new CustomizedNotFoundException(" desired order not found ."));
     }
 
-    private void enableCustomer(String email) {
-        Customer customer = customerRepository.findCustomerByEmail(email)
-                .orElseThrow(() -> new CustomizedEmailException("email noy found"));
+    private void enableCustomer(Long id) {
+        Customer customer = customerRepository.getReferenceById(id);
+//                .orElseThrow(() -> new CustomizedEmailException("email not found"));
         customer.setEnabled(true);
         customerRepository.save(customer);
 
