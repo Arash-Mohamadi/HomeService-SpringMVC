@@ -34,6 +34,7 @@ public class SecurityConfigProvider {
                 .authorizeHttpRequests()
                 .requestMatchers("/api/v1/specialist/signup").permitAll()
                 .requestMatchers("/api/v1/customer/signup").permitAll()
+                .requestMatchers("/api/v1/manager/signup").permitAll()
                 .requestMatchers("/api/v1/customer/**").authenticated()
                 .requestMatchers("/api/v1/manager/**").authenticated()
                 .requestMatchers("/api/v1/specialist/**").authenticated()
