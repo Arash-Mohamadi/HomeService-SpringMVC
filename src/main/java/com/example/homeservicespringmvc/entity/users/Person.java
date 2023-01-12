@@ -18,6 +18,8 @@ import java.util.Objects;
 @MappedSuperclass
 @Data
 @NoArgsConstructor
+@Setter
+@Getter
 public abstract class Person extends BaseEntity<Long>
         implements UserDetails {
 
@@ -48,8 +50,8 @@ public abstract class Person extends BaseEntity<Long>
     @Enumerated(EnumType.STRING)
     private UserRole userType;
 
-    private Boolean locked;
-    private Boolean enabled;
+    private Boolean locked = false ;
+    private Boolean enabled = false;
 
     public Person(String firstname, String lastname, String email, String username, String password) {
         this.firstname = firstname;

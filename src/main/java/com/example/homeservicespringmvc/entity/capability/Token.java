@@ -24,7 +24,7 @@ public class Token {
     private LocalDateTime createdAt;
     @Column(nullable = false)
     private LocalDateTime expiresAt;
-    @Column(nullable = false)
+
     private LocalDateTime confirmationAt;
 
     @ManyToOne
