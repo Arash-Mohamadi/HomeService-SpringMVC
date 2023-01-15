@@ -64,6 +64,7 @@ public class CustomerSpecification {
             criteriaQuery.distinct(true);
             Subquery<Long> subQuery = criteriaQuery.subquery(Long.class);
             Root<Order> from = subQuery.from(Order.class);
+            subQuery.select(criteriaBuilder.count(from));
             subQuery.where(criteriaBuilder.equal(from.get("customer").get("id"),root.get("id")));
             return criteriaBuilder.greaterThanOrEqualTo(subQuery,count);
         };
